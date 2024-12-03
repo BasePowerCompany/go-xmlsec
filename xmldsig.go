@@ -71,10 +71,8 @@ func Sign(key []byte, doc []byte, opts SignatureOptions) ([]byte, error) {
 		return nil, errors.New("cannot find start node")
 	}
 
-	fmt.Println("aaryaman was here")
-
 	if rv := C.xmlSecDSigCtxSign(ctx, node); rv < 0 {
-		return nil, errors.New("failed to sign")
+		return nil, errors.New("failed to sign, but we know this")
 	}
 
 	return dumpDoc(parsedDoc), nil
