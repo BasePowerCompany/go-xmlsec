@@ -2,6 +2,7 @@ package xmlsec
 
 import (
 	"errors"
+	"fmt"
 	"unsafe"
 )
 
@@ -69,6 +70,8 @@ func Sign(key []byte, doc []byte, opts SignatureOptions) ([]byte, error) {
 	if node == nil {
 		return nil, errors.New("cannot find start node")
 	}
+
+	fmt.Println("aaryaman was here")
 
 	if rv := C.xmlSecDSigCtxSign(ctx, node); rv < 0 {
 		return nil, errors.New("failed to sign")
