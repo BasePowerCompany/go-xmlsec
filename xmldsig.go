@@ -2,7 +2,6 @@ package xmlsec
 
 import (
 	"errors"
-	"fmt"
 	"unsafe"
 )
 
