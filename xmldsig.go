@@ -2,6 +2,7 @@ package xmlsec
 
 import (
 	"errors"
+	"log"
 	"unsafe"
 )
 
@@ -71,6 +72,7 @@ func Sign(key []byte, doc []byte, opts SignatureOptions) ([]byte, error) {
 	}
 
 	if rv := C.xmlSecDSigCtxSign(ctx, node); rv < 0 {
+		log.Printf("Debug: Returning custom error message")
 		return nil, errors.New("failed to sign, but we know this")
 	}
 
@@ -203,8 +205,9 @@ func VerifyTrusted(certs [][]byte, doc []byte, opts SignatureOptions) error {
 		return errors.New("cannot find start node")
 	}
 
-	if rv := C.xmlSecDSigCtxVerify(dsigCtx, node); rv < 0 {
-		return ErrVerificationFailed
+	if rv := C.xmlSecDSigCtxSign(ctx, node); rv < 0 {
+		log.Printf("Debug: Returning custom error message")
+		return nil, errors.New("failed to sign, but we know this")
 	}
 
 	if dsigCtx.status != xmlSecDSigStatusSucceeded {
